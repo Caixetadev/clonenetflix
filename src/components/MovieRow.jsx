@@ -1,45 +1,57 @@
 import React, { useState } from "react";
 import "./MovieRow.css";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext"
-
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import fallbackImg from "../assets/img/fallbackImg.png";
 export default ({ title, items }) => {
-  const [scrollX, setScrollX] = useState(0)
+  const [scrollX, setScrollX] = useState(0);
 
   const handleLeftArrow = () => {
-    let x = scrollX + Math.round(window.innerWidth / 2)
-    if(x > 0) {
-      x = 0
+    let x = scrollX + Math.round(window.innerWidth / 2);
+    if (x > 0) {
+      x = 0;
     }
-    setScrollX(x)
-  }
+    setScrollX(x);
+  };
 
   const handleRightArrow = () => {
-    let x = scrollX - Math.round(window.innerWidth / 2)
-    let listW = items.results.length * 150
-    if((window.innerWidth - listW) > x) {
-      x = (window.innerWidth - listW) - 60
+    let x = scrollX - Math.round(window.innerWidth / 2);
+    let listW = items.results.length * 150;
+    if (window.innerWidth - listW > x) {
+      x = window.innerWidth - listW - 60;
     }
-    setScrollX(x)
-  }
+    setScrollX(x);
+  };
 
+  // function to handle null image urls
+  // if image url is null, use fallback image
+  const handleNullImage = (imageURL) => {
+    if (imageURL === null) {
+      return fallbackImg;
+    } else {
+      return `https://image.tmdb.org/t/p/w500${imageURL}`;
+    }
+  };
   return (
     <div className="movieRow">
       <h2>{title}</h2>
       <div className="movieRow--left" onClick={handleLeftArrow}>
-        <NavigateBeforeIcon style={{fontSize: 50}} />
+        <NavigateBeforeIcon style={{ fontSize: 50 }} />
       </div>
       <div className="movieRow--right" onClick={handleRightArrow}>
-        <NavigateNextIcon style={{fontSize: 50}} />
+        <NavigateNextIcon style={{ fontSize: 50 }} />
       </div>
 
       <div className="movieRow_listArea">
-        <div className="movieRow_List" style={{marginLeft: scrollX, width: items.results.length * 150}}>
+        <div
+          className="movieRow_List"
+          style={{ marginLeft: scrollX, width: items.results.length * 150 }}
+        >
           {items.results.length > 0 &&
             items.results.map((item, key) => (
               <div className="movieRow_item" key={key}>
                 <img
-                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                  src={handleNullImage(item.poster_path)}
                   alt={item.original_title}
                 />
               </div>
