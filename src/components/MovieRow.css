@@ -23,6 +23,7 @@
 
 .movieRow_item img {
   width: 100%;
+  height: 225px;
   transform: scale(0.9);
   transition: all ease-in-out 0.2s;
 }
@@ -44,7 +45,7 @@
   overflow: hidden;
   cursor: pointer;
   opacity: 0;
-  transition: all ease .s;
+  transition: all ease 0.5s;
 }
 
 .movieRow--left {
